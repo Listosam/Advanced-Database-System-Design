@@ -1,0 +1,10 @@
+import sqlite3
+connection = sqlite3.connect('shows.db')
+cursor = connection.cursor()
+cursor.execute("create table if not exists Shows (Title TEXT, Director TEXT, Year INT)")
+cursor.execute("insert into Shows values('No Time to Die','Cary Joji Fukunaga',2021)")
+cursor.execute("insert into Shows values('Army of Thieves','Matthias Schweighöfer',2021)")
+cursor.execute("insert into Shows values('The Italian Job','F. Gary Gray',2003)")
+connection.commit()
+connection.close()
+print('Done!')
