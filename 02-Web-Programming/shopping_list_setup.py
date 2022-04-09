@@ -1,19 +1,22 @@
 import sqlite3
 
-# create a database called shopping_list
-connection = sqlite3.connect('shopping_list.db')
-cursor = connection.cursor()
-# create a table called list in shopping_list database
-cursor.execute("create table list (id integer primary key, description text)")
-#Populate the table called list with records
-cursor.execute("insert into list (description) values ('Apples')")
-cursor.execute("insert into list (description) values ('Bananas')")
-cursor.execute("insert into list (description) values ('Tangerines')")
-cursor.execute("insert into list (description) values ('Oranges')")
-cursor.execute("insert into list (description) values ('Pineapples')")
-cursor.execute("insert into list (description) values ('Potatoes')")
+# DB-API spec for talking to relational databases in Python
 
-#ensure the recorda are committed to the database
+connection = sqlite3.connect("shop_list.db")
+
+cursor = connection.cursor()
+
+cursor.execute("drop table list")
+
+cursor.execute("create table list (id integer primary key, description text)")
+
+cursor.execute("insert into list (description) values ('apples')")
+cursor.execute("insert into list (description) values ('broccoli')")
+cursor.execute("insert into list (description) values ('pizza')")
+cursor.execute("insert into list (description) values ('tangerine')")
+cursor.execute("insert into list (description) values ('potatoes')")
+
 connection.commit()
 connection.close()
-print('Done!')
+
+print("done.")

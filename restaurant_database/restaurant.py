@@ -2,6 +2,7 @@ from tkinter.messagebox import YES
 import pymongo
 from pymongo import MongoClient
 import pprint
+from pymongo import collection
 
 client = MongoClient('mongodb+srv://Listosam:Mxtojz20@advanced-database-syste.gbeej.mongodb.net/sample_restaurants?retryWrites=true&w=majority')
 db = client.sample_restaurants
@@ -33,7 +34,39 @@ restaurants = db.restaurants
 #for result in query_5:
 #    print(result)
 
-#Exercise 6:MongoDB query to display the first 5 restaurant which is in the borough Bronx
-query_6 = restaurants.find({'borough':'Bronx'})[0:5]
-for result in query_6:
+#Exercise 6: MongoDB query to display the first 5 restaurant which is in the borough Bronx
+#query_6 = restaurants.find({'borough':'Bronx'})[0:5]
+#for result in query_6:
+#    print(result)
+
+#Exercise 7: MongoDB query to display the next 5 restaurants after skipping first 5 which are in the borough Bronx
+#query_7 = restaurants.find({'borough':'Bronx'})[5:10]
+#for result in query_7:
+#    print(result)
+
+#Exercise 8: MongoDB query to find the restaurants who achieved a score more than 90
+#query_8 = restaurants.find({'grades.score':{'$gt': 90}})
+#for result in query_8:
+ #   print(result)
+#print(restaurants.find({'grades.score':{'$gt': 90}}).count())
+
+#Exercise 9: MongoDB query to find the restaurants that achieved a score, more than 80 but less than 100
+#query_9 = restaurants.find({'grades.score':{'$gt': 80,'$lt': 100}})
+#for result in query_9:
+#    print(result)
+#print(restaurants.find({'grades.score':{'$gt': 80,'$lt': 100}}).count())
+
+#Exercise 10: Write a MongoDB query to find the restaurants which locate in latitude value less than -95.754168
+#query_10 = restaurants.find({'address.coord.0':{'$lt': -95.754168}})
+#for result in query_10:
+#    print(result)
+#print(restaurants.find({'address.coord.0':{'$lt': -95.754168}}).count())
+
+#Exercise 11: MongoDB query to find the restaurants that do not prepare any cuisine of 'American' and their grade score more than 70 and latitude less than -65.754168
+query_11 = restaurants.find({'$and':[{'cuisine':{'$ne':'American'}},{'grades.score':{'$gt':70}},
+{'address.coord':{'$lt':-65.754168}}
+]})
+for result in query_11:
     print(result)
+#print(restaurants.find({'$and': [{'cuisine':{'$ne':'American'}},{'grades.score':{'$gt':70}},{'address.coord':{'$lt':-65.754168}}]}).count())
+
