@@ -1,19 +1,65 @@
-'''from bottle import route, run, template
 
-@route('/hello/<name>')
-def index(name):
-    people_names = ['Magik', 'Gideon', 'Creswell']
-    return template('<b>Hello! {{name}}</b>', name=people_names)
+from bottle import route, run, template, get, post, request, response, redirect
+import sqlite3
 
-run(host='localhost', port=8080)'''
+conection = sqlite3.connect('shop_list.db')
 
-import bottle
-from bottle import route, run, template
+@route("/")
+@route("/list")
+def get_list():
+    global connection
+    cursor = connection.cursor()
+    items = cursor.execute("select id, description from list")
+    items = list(items)
+    shopping_list = [{"id":item[0], "desc":item[1]} for item in items]
+    return template('shop_list', shop_list = shopping_list, template_lookup = ['D:/SKUL/Kent State University/Semester 1/Advanced Database systems/Database Code/Advanced-Database-System-Design/02-Web-Programming/Views'])
 
-@route('/hello')
-def index():
-    people_names = ['Magik', 'Gideon', 'Creswell']
-    return bottle.template('hello', people=people_names,
-    template_lookup = ['D:/SKUL/Kent State University/Semester 1/Advanced Database systems/Database Code/Advanced-Database-System-Design/02-Web-Programming/Views'])
 
-run(host='localhost', port=8080)
+
+@get("/add")
+def get_add():
+    return template('add_item', template_lookup = ['D:/SKUL/Kent State University/Semester 1/Advanced Database systems/Database Code/Advanced-Database-System-Design/02-Web-Programming/Views'])
+
+
+@post("/add")
+def post_add():
+    description = request.forms.get("description")
+    print(f"post was called. description = {description}")
+    global connection
+    cursor = connection.cursor()
+    items = cursor.execute(f"insert into list (description) values ('{description}')")
+    connection.commit()
+    redirect("/list")
+
+@route("/delete/<id>")
+def get_delete(id):
+    global connection
+    cursor = connection.cursor()
+    items = cursor.execute(f"delete from list where id={id}")
+    connection.commit()
+    redirect("/list")
+
+
+@route("/edit<id>")
+def get_edit(id):
+    global connection
+    cursor = connection.cursor()
+    items = cursor.execute(f"select description from list where id={id}")
+    items = list(items)
+    if len(items) !=1:
+        redirect("/")
+    description = items[0][0]
+    print(description)
+    return template('edit_item', template_lookup = ['D:/SKUL/Kent State University/Semester 1/Advanced Database systems/Database Code/Advanced-Database-System-Design/02-Web-Programming/Views'], id = id, description = description)
+
+
+@post("/edit/<id>")
+def post_edit(id):
+    description = request.forms.get("description")
+    global connection
+    cursor = connection.cursor()
+    cursor.execute(f"update list set description = '{description} where id={id}")
+    connection.commit()
+    redirect("/list")
+
+run(host = 'localhost', port = 8080)
