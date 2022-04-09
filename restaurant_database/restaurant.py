@@ -1,8 +1,8 @@
-from tkinter.messagebox import YES
 import pymongo
 from pymongo import MongoClient
 import pprint
 from pymongo import collection
+
 
 client = MongoClient('mongodb+srv://Listosam:Mxtojz20@advanced-database-syste.gbeej.mongodb.net/sample_restaurants?retryWrites=true&w=majority')
 db = client.sample_restaurants
@@ -63,10 +63,36 @@ restaurants = db.restaurants
 #print(restaurants.find({'address.coord.0':{'$lt': -95.754168}}).count())
 
 #Exercise 11: MongoDB query to find the restaurants that do not prepare any cuisine of 'American' and their grade score more than 70 and latitude less than -65.754168
-query_11 = restaurants.find({'$and':[{'cuisine':{'$ne':'American'}},{'grades.score':{'$gt':70}},
-{'address.coord':{'$lt':-65.754168}}
-]})
-for result in query_11:
-    print(result)
+#query_11 = restaurants.find({'$and':[{'cuisine':{'$ne':'American'}},{'grades.score':{'$gt':70}},
+#{'address.coord.0':{'$lt':-65.754168}}
+#]})
+#for result in query_11:
+#    print(result)
 #print(restaurants.find({'$and': [{'cuisine':{'$ne':'American'}},{'grades.score':{'$gt':70}},{'address.coord':{'$lt':-65.754168}}]}).count())
+
+#Exercise 12: MongoDB query to find the restaurants which do not prepare any cuisine of 'American' and achieved a score more than 70 and located in the longitude less than -65.754168.
+#Note : Do this query without using $and operator 
+#query_12 = restaurants.find({'cuisine':{'$ne':'American'},'grades.score':{'$gt':70},'address.coord':{'$lt':-65.754168}})
+#for result in query_12:
+#    print(result)
+#print(restaurants.find({'cuisine':{'$ne':'American'},'grades.score':{'$gt':70},'address.coord':{'$lt':-65.754168}}).count())
+
+#Exercise 13: MongoDB query to find the restaurants which do not prepare any cuisine of 'American ' and achieved a grade point 'A' not belongs to the borough Brooklyn. 
+# The document must be displayed according to the cuisine in descending order
+#query_13 = restaurants.find({'cuisine':{'$ne':'American'},'grades.grade':{'$eq':'A'},'borough':{'$ne':'Brooklyn'}}).sort('cuisine',pymongo.DESCENDING)
+#for result in query_13:
+#    print(result)
+
+#query_13 = restaurants.find({'$and':[{'cuisine':{'$ne':'American'}},
+# {'grades.grade':{'$eq':'A'}},{'borough':{'$ne':'Brooklyn'}}]})
+#for result in query_13:
+#    print(result)
+
+#Exercise 14: MongoDB query to find the restaurant Id, name, 
+# borough and cuisine for those restaurants which contain 'Wil' as first three letters for its name
+query_14 = restaurants.find({'name':{'$regex':'^Wil'}},{'restaurant_id':1,'name':1,'borough':1,'cuisine':1})
+for result in query_14:
+    print(result)
+
+
 
