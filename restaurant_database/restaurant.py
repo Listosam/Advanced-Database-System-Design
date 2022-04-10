@@ -1,7 +1,11 @@
+from asyncio.windows_events import NULL
+from datetime import datetime
+from tokenize import Double
 import pymongo
 from pymongo import MongoClient
 import pprint
 from pymongo import collection
+
 
 
 client = MongoClient('mongodb+srv://Listosam:Mxtojz20@advanced-database-syste.gbeej.mongodb.net/sample_restaurants?retryWrites=true&w=majority')
@@ -145,5 +149,65 @@ restaurants = db.restaurants
 
 #Exercise 22: MongoDB query to find the restaurant Id, name, and grades for those restaurants which achieved a grade of "A" 
 # and scored 11 on an ISODate "2014-08-11T00:00:00Z" among many of survey dates..
+#query_22 = restaurants.find({'grades.grade':'A','grades.score':11,'grades.date':datetime(2014,8,11,0,0)},{'restaurant_id':1,'name':1,'grades':1})
+#for result in query_22:
+#    print(result)
 
+
+#Exercise 23: MongoDB query to find the restaurant Id, name and grades for those restaurants 
+# where the 2nd element of grades array contains a  grade of "A" and score 9 on an ISODate "2014-08-11T00:00:00Z"
+#query_23 = restaurants.find({'grades.1.grade':'A','grades.1.score':9,'grades.1.date':datetime(2014,8,11,0,0)},{'restaurant_id':1,'name':1,'grades':1})
+#for result in query_23:
+#    print(result)
+
+#Exercise 24: MongoDB query to find the restaurant Id, name, address and geographical location for those restaurants 
+# where 2nd element of coord array contains a value which is more than 42 and upto 52
+#query_24 = restaurants.find({'address.coord.1':{'$gt':42,'$lte':52}},{'restaurant_id':1,'name':1,'address':1,'coord':1})
+#for result in query_24:
+#   print(result)
+
+#Exercise 25: MongoDB query to arrange the name of the restaurants in ascending order along with all the columns
+#query_25 = restaurants.find().sort('name',pymongo.ASCENDING)
+#for result in query_25:
+#    print(result)
+
+#Exercise 26:  MongoDB query to arrange the name of the restaurants in descending along with all the columns
+#query_26 = restaurants.find().sort('name',pymongo.DESCENDING)
+#for result in query_26:
+ #   print(result)
+
+#Exercise 27: MongoDB query to arranged the name of the cuisine in ascending order and for that 
+# same cuisine borough should be in descending order
+#query_27 = restaurants.find({'cuisine':1, 'borough':1}).sort('cusine',pymongo.ASCENDING, 'borough',pymongo.DESCENDING)
+#for result in query_27:
+#    print(result)
+
+#Exercise 28: MongoDB query to know whether all the addresses contains the street or not
+#query_28 = restaurants.find({'address.street':{'$exists':True}})
+#for result in query_28:
+#   print(result)
+
+#Exercise 29: MongoDB query which will select all documents in the restaurants collection where the coord field value is Double
+#query_29 = restaurants.find({'address.coord':{'$type':1}})
+#for result in query_29:
+#   print(result)
+
+
+#Exercise 30: MongoDB query which will select the restaurant Id, name and grades for those restaurants which 
+# returns 0 as a remainder after dividing the score by 7
+#query_30 = restaurants.find({'grades.score':{'$mod':[7,0]}},{'restaurant_id':1,'name':1,'grades':1})
+#for result in query_30:
+#   print(result)
+
+#Exercise 31: MongoDB query to find the restaurant name, borough, longitude and attitude and cuisine for those 
+# restaurants which contains 'mon' as three letters somewhere in its name
+#query_31 = restaurants.find({'name':{'$regex':'mon'}},{'name':1,'address.coord':1,'cuisine':1})
+#for result in query_31:
+#   print(result)
+
+#Exercise 32: MongoDB query to find the restaurant name, borough, longitude and latitude and cuisine for those restaurants 
+# which contain 'Mad' as first three letters of its name
+query_32 = restaurants.find({'name':{'$regex':'^Mad'}},{'name':1,'borough':1,'address.coord':1,'cuisine':1})
+for result in query_32:
+   print(result)
 
