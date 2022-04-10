@@ -90,9 +90,60 @@ restaurants = db.restaurants
 
 #Exercise 14: MongoDB query to find the restaurant Id, name, 
 # borough and cuisine for those restaurants which contain 'Wil' as first three letters for its name
-query_14 = restaurants.find({'name':{'$regex':'^Wil'}},{'restaurant_id':1,'name':1,'borough':1,'cuisine':1})
-for result in query_14:
-    print(result)
+#query_14 = restaurants.find({'name':{'$regex':'^Wil'}},{'restaurant_id':1,'name':1,'borough':1,'cuisine':1})
+#for result in query_14:
+#    print(result)
 
+#Exercise 15: MongoDB query to find the restaurant Id, name, borough and 
+#cuisine for those restaurants which contain 'ces' as last three letters for its name
+#query_15 = restaurants.find({'name':{'$regex':'ces$'}},{'restaurant_id':1,'name':1,'borough':1,'cuisine':1})
+#for result in query_15:
+#    print(result)
+
+#Exercise 16: MongoDB query to find the restaurant Id, name, borough and cuisine for those restaurants 
+# which contain 'Reg' as three letters somewhere in its name
+#query_16 = restaurants.find({'name':{'$regex':'Reg'}},{'restaurant_id':1,'name':1,'borough':1,'cuisine':1})
+#for result in query_16:
+#    print(result)
+
+#Exercise 17:MongoDB query to find the restaurants which belong to the borough Bronx and prepared either American or Chinese dish
+#query_17 = restaurants.find({'borough':'Bronx','$or':[{'cuisine':'American'},{'cuisine':'Chinese'}]})
+#for result in query_17:
+#    print(result)
+
+#Exercise 18: MongoDB query to find the restaurant Id, name, borough and cuisine for those 
+# restaurants which belong to the  borough Staten Island or Queens or Bronxor Brooklyn
+#query_18 = restaurants.find({'borough':{'$in':['Staten Island','Queens','Bronx','Brooklyn']}},
+#{'restaurant_id':1,'name':1,'borough':1,'cuisine':1})
+#for result in query_18:
+ #   print(result)
+
+#Exercise 19: MongoDB query to find the restaurant Id, name, borough and cuisine for 
+# those restaurants which are not belonging to the borough Staten Island or Queens or Bronxor Brooklyn
+#query_19 = restaurants.find({'borough':{'$nin':['Staten Island','Queens','Bronx','Brooklyn']}},
+#{'restaurant_id':1,'name':1,'borough':1,'cuisine':1})
+#for result in query_19:
+#    print(result)
+
+#Exercise 20: MongoDB query to find the restaurant Id, name, borough and cuisine for 
+# those restaurants which achieved a score which is not more than 10
+#query_20 = restaurants.find({'grades.score':{'$lte':10}},{'restaurant_id':1,'name':1,'borough':1,'cuisine':1})
+#for result in query_20:
+ #   print(result)
+
+#Exercise 21:MongoDB query to find the restaurant Id, name, borough and cuisine for those 
+# restaurants which prepared dish except  'American' and 'Chinees' or restaurant's name begins with letter 'Wil'
+#query_21 = restaurants.find({'$not':{'$in':{'cuisine':['American','Chinese']},'$or':{'name':{'$regex':'^Wil'}}}},
+#{'restaurant_id':1,'name':1,'borough':1,'cuisine':1})
+#for result in query_21:
+#    print(result)
+
+#query_21 = restaurants.find({'$nor':[{'cuisine':{'$in':['American','Chinese']}},{'name':{'$regex':'^Wil'}}]},
+#{'restaurant_id':1,'name':1,'borough':1,'cuisine':1})
+#for result in query_21:
+#    print(result)
+
+#Exercise 22: MongoDB query to find the restaurant Id, name, and grades for those restaurants which achieved a grade of "A" 
+# and scored 11 on an ISODate "2014-08-11T00:00:00Z" among many of survey dates..
 
 
